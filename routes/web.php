@@ -50,7 +50,7 @@ Route::middleware('splade')->group(function () {
 
     Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function (){
         Route::get('/',[AdminController::class,'index'])->name('admin.index');
-        Route::get('/users',[UserController::class,'']);
+        Route::resource('/users', UserController::class);
         Route::get('/countries',[CountryController::class,'']);
         Route::get('/employees',[EmployeeController::class,'']);
         Route::get('/cities',[CityController::class,'']);

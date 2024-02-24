@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <h1>Users index</h1>
+    <h1 class="text-2xl font-semibold p-4" >Users index</h1>
     <x-splade-table :for="$users">
         @cell('action', $user)
             <Link href="{{ route('admin.users.edit', $user) }}" class="px-3 p-2 bg-green-400 texet-white hover:bg-green-700 rounded">Edit

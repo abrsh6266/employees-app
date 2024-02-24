@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Tables\Users;
@@ -15,6 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $users = Users::class;
         return view('admin.users.index', [
             'users' => Users::class
         ]);
@@ -25,23 +27,19 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        User::create($request->validated());
+        Splade::toast('user created successfully')->autoDismiss(3);
+        return view('admin.users.index', [
+            'users' => Users::class
+        ]);
     }
 
     /**
@@ -59,14 +57,18 @@ class UserController extends Controller
     {
         $user->update($request->validated());
         Splade::toast('user updated')->autoDismiss(3);
-        return to_route('admin.users.index');
+        return view('admin.users.index', [
+            'users' => Users::class
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        Splade::toast('User deleted successfully')->autoDismiss(3);
+        return back();
     }
 }

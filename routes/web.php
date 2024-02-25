@@ -52,10 +52,10 @@ Route::middleware('splade')->group(function () {
         Route::get('/',[AdminController::class,'index'])->name('admin.index');
         Route::resource('/users', UserController::class);
         Route::resource('/countries', CountryController::class);
-        Route::get('/employees',[EmployeeController::class,'']);
+        Route::resource('/employees',EmployeeController::class);
         Route::resource('/cities',CityController::class);
         Route::resource('/states',StateController::class);
-        Route::get('departments',[DepartmentController::class,'']);
+        Route::resource('/departments',DepartmentController::class);
 
     } );
     require __DIR__.'/auth.php';

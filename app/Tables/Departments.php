@@ -2,7 +2,7 @@
 
 namespace App\Tables;
 
-use App\Models\Country;
+use App\Models\Department;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use ProtoneMedia\Splade\AbstractTable;
@@ -10,7 +10,7 @@ use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class Countries extends AbstractTable
+class Departments extends AbstractTable
 {
     /**
      * Create a new instance.
@@ -37,21 +37,20 @@ class Countries extends AbstractTable
      *
      * @return mixed
      */
-    public function for ()
+    public function for()
     {
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
                     $query
-                        ->orWhere('name', 'LIKE', "%{$value}%")
-                        ->orWhere('country_code', 'LIKE', "%{$value}%");
+                        ->orWhere('name', 'LIKE', "%{$value}%");
                 });
             });
         });
-        return QueryBuilder::for(Country::class)
+        return QueryBuilder::for(Department::class)
             ->defaultSort('id')
-            ->allowedSorts(['id', 'name', 'country_code'])
-            ->allowedFilters(['id', 'name', 'country_code', $globalSearch]);
+            ->allowedSorts(['id', 'name'])
+            ->allowedFilters(['id', 'name', $globalSearch]);
     }
 
     /**
@@ -63,10 +62,9 @@ class Countries extends AbstractTable
     public function configure(SpladeTable $table)
     {
         $table
-        ->withGlobalSearch(columns: ['id', 'name', 'country_code'])
+        ->withGlobalSearch(columns: ['name'])
         ->column('id', sortable: true)
         ->column('name', sortable: true)
-        ->column('country_code', sortable: true)
         ->column('action')
         ->paginate(15);
     }

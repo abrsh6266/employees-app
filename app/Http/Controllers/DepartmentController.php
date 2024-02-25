@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateDepartmentRequest;
+use App\Models\Department;
+use App\Tables\Departments;
 use Illuminate\Http\Request;
-
+use ProtoneMedia\Splade\Facades\Splade;
+use ProtoneMedia\Splade\SpladeForm;
+use ProtoneMedia\Splade\FormBuilder\Input;
+use ProtoneMedia\Splade\FormBuilder\Submit;
 class DepartmentController extends Controller
 {
     /**
@@ -11,7 +17,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        return view("admin.departments.index",[
+            'departments' => Departments::class,
+        ]);
     }
 
     /**
@@ -19,23 +27,26 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        $form =  SpladeForm::make()
+        ->action(route('admin.departments.store'))
+        ->fields([
+            Input::make('name')->label('Name'),
+            Submit::make()->label('Save')
+        ])->class('space-y-4 p-4 bg-white rounded');
+        return view('admin.departments.create',[
+            'form'=> $form
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateDepartmentRequest $request)
     {
-        //
-    }
+        Department::create($request->validated());
+        Splade::toast('Department successfully created!')->autoDismiss(3);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return to_route('admin.departments.index');
     }
 
     /**

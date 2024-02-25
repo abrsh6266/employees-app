@@ -17,9 +17,11 @@ class UserController extends Controller
     public function index()
     {
         $users = Users::class;
-        return view('admin.users.index', [
-            'users' => Users::class
-        ]);
+        if ($users != null) {
+            return view('admin.users.index', [
+                'users' => Users::class
+            ]);
+        }
     }
 
     /**

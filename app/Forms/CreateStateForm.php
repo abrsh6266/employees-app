@@ -17,10 +17,7 @@ class CreateStateForm extends AbstractForm
         $form
             ->action(route('admin.states.store'))
             ->method('POST')
-            ->class('space-y-4 p-4 bg-white rounded')
-            ->fill([
-                //
-            ]);
+            ->class('space-y-4 p-4 bg-white rounded');
     }
 
     public function fields(): array

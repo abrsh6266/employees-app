@@ -51,7 +51,7 @@ class StateController extends Controller
             'form'=> UpdateStateForm::make()->action(route('admin.states.update', $state))
             ->fill($state),  
         ]);
-    }
+    }   
 
     /**
      * Update the specified resource in storage.
@@ -68,8 +68,10 @@ class StateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(State $state)
     {
-        //
+        $state->delete();
+        Splade::toast('deleted successfully!')->autoDismiss(3);
+        return back();
     }
 }

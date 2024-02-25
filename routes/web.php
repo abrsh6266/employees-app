@@ -53,9 +53,10 @@ Route::middleware('splade')->group(function () {
         Route::resource('/users', UserController::class);
         Route::resource('/countries', CountryController::class);
         Route::get('/employees',[EmployeeController::class,'']);
-        Route::get('/cities',[CityController::class,'']);
+        Route::resource('/cities',CityController::class);
         Route::resource('/states',StateController::class);
         Route::get('departments',[DepartmentController::class,'']);
+
     } );
     require __DIR__.'/auth.php';
 });

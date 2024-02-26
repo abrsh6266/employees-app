@@ -44,7 +44,8 @@ class Cities extends AbstractTable
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
                     $query
-                        ->orWhere('name', 'LIKE', "%{$value}%");
+                        ->orWhere('name', 'LIKE', "%{$value}%")
+                        ->orWhere('id', 'LIKE', "%{$value}%");
                 });
             });
         });
@@ -64,7 +65,7 @@ class Cities extends AbstractTable
     public function configure(SpladeTable $table)
     {
         $table
-        ->withGlobalSearch(columns: ['name'])
+        ->withGlobalSearch(columns: ['name','id'])
         ->column('id', sortable: true)
         ->column('name', sortable: true)
         ->column(key: 'state.name', label: 'State')

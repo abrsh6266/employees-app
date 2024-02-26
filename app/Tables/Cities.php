@@ -65,16 +65,16 @@ class Cities extends AbstractTable
     public function configure(SpladeTable $table)
     {
         $table
-        ->withGlobalSearch(columns: ['name','id'])
-        ->column('id', sortable: true)
-        ->column('name', sortable: true)
-        ->column(key: 'state.name', label: 'State')
-        ->column('action')
-        ->selectFilter(
-            key: 'state_id',
-            options: State::pluck('name', 'id')->toArray(),
-            label: 'State',
-        )
-        ->paginate(15);
+            ->withGlobalSearch(columns: ['name', 'id'])
+            ->column(label: 'id', sortable: true)
+            ->column(label: 'name', sortable: true)
+            ->column(key: 'state.name', label: 'State')
+            ->column('action')
+            ->selectFilter(
+                key: 'state_id',
+                options: State::pluck('name', 'id')->toArray(),
+                label: 'State',
+            )
+            ->paginate(15);
     }
 }

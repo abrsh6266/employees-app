@@ -49,7 +49,7 @@ Route::middleware('splade')->group(function () {
     });
 
     Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function (){
-        Route::get('/',[AdminController::class,'index'])->name('admin.index');
+        Route::get('/',[AdminController::class,'index'])->name('admin');
         Route::resource('/users', UserController::class);
         Route::resource('/countries', CountryController::class);
         Route::resource('/employees',EmployeeController::class);

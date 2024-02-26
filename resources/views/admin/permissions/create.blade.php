@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <h1 class="text-2xl font-semibold p-4">New Permission</h1>
+    <h1 class="text-2xl font-semibold p-4">New User</h1>
     <x-splade-form class="p-4 bg-white rounded-md space-y-2" :action="route('admin.users.store')" method="POST" >
         <x-splade-input name="username" label="Username" />
         <x-splade-input name="first_name" label="First Name" />

@@ -5,7 +5,9 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +58,8 @@ Route::middleware('splade')->group(function () {
         Route::resource('/cities',CityController::class);
         Route::resource('/states',StateController::class);
         Route::resource('/departments',DepartmentController::class);
+        Route::resource('/permissions',PermissionController::class);
+        route::resource('/roles',RoleController::class);
 
     } );
     require __DIR__.'/auth.php';

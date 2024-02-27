@@ -17,51 +17,57 @@ use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
 {
-    public function index(){
-        return view("admin.permissions.index",[
-            "permissions"=> Permissions::class  ,
+    public function index()
+    {
+        return view("admin.permissions.index", [
+            "permissions" => Permissions::class,
         ]);
     }
     public function create()
     {
-        $form =  SpladeForm::make()
-        ->action(route('admin.permissions.store'))
-        ->fields([
-            Input::make('name')->label('Name'),
-            Submit::make()->label('Save')
-        ])->class('space-y-4 p-4 bg-white rounded');
-        return view('admin.permissions.create',[
-            'form'=> $form
+        return view('admin.permissions.create', [
+            'roles' => Role::pluck('name', 'id')->toArray(),
         ]);
     }
     public function store(CreatePermissionRequest $request)
     {
-        Permission::create($request->validated());
+        $validated = $request->validated();
+
+        $permission = Permission::create($request->validated());
+
+        // Sync roles based on selected options
+        $roles = Role::whereIn('id', $validated['roles'])->get();
+
+        $permission->syncRoles($roles);
+
         Splade::toast('Permission created!')->autoDismiss(3);
 
         return to_route('admin.permissions.index');
     }
+
     public function edit(Permission $permission)
     {
-        $form =  SpladeForm::make()
-        ->action(route('admin.permissions.update', $permission))
-        ->fields([
-            Input::make('name')->label('Name'),
-            Submit::make()->label('Save')
-        ])
-        ->fill($permission)
-        ->method('PUT')
-        ->class('space-y-4 p-4 bg-white rounded');
-        return view('admin.permissions.edit',[
-            'form'=> $form
+        return view('admin.permissions.edit', [
+            'permission' => $permission,
+            'roles' => Role::pluck('name', 'id')->toArray(),
         ]);
     }
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
-        $permission->update($request->validated());
+        $validated = $request->validated();
+
+        $permission->update($validated);
+
+        // Sync roles based on selected options
+        $roles = Role::whereIn('id', $validated['roles'])->get();
+        
+        $permission->syncRoles($roles);
+
         Splade::toast('Permission updated!')->autoDismiss(3);
+
         return to_route('admin.permissions.index');
     }
+
     public function destroy(Permission $permission)
     {
         $permission->delete();

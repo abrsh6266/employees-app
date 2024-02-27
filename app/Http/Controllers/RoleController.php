@@ -29,24 +29,18 @@ class RoleController extends Controller
             'permissions' => Permission::pluck('name', 'id')->toArray()
         ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateRoleRequest $request)
     {
         $validated = $request->validated();
 
         $role = Role::create($validated);
         $permissions = Permission::whereIn('id', $validated['permissions'])->get();
-
-        // Optional: If strict permission assignment is desired
         if ($permissions->count() !== count($validated['permissions'])) {
             return back()->withErrors(['permissions' => 'Invalid permissions selected.']);
         }
 
         $role->syncPermissions($permissions);
-        Splade::toast('Role created!');
+        Splade::toast('Role created!')->autoDismiss(3);
 
         return to_route('admin.roles.index');
     }
@@ -76,7 +70,7 @@ class RoleController extends Controller
 
         $role->syncPermissions($permissions);
 
-        Splade::toast('Role updated!');
+        Splade::toast('Role updated!')->autoDismiss(3);
 
         return to_route('admin.roles.index');
     }

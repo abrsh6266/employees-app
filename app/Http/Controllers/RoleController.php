@@ -81,7 +81,6 @@ class RoleController extends Controller
     {
         $role->delete();
         Splade::toast('Role deleted')->autoDismiss(3);
-
         return back();
     }
 }
